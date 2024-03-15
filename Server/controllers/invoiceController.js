@@ -41,7 +41,6 @@ class InvoiceController {
                 association: "SoldProducts",
                 attributes: ['totalPrice'],
                 as: "TotalPrice",
-                required: true
             },
             limit: 5,
             offset: 0,
@@ -49,13 +48,15 @@ class InvoiceController {
           };
 
           if (page) {
-            let offset = page * limit - limit;
+            let offset = page * 5 - 5;
             paramQuerySQL.offset = offset;
           }
 
         try {
+            const AllData = await Invoice.findAndCountAll();
+            const lengthData = AllData.count;
             const invoices = await Invoice.findAll(paramQuerySQL)
-            res.status(200).json(invoices)
+            res.status(200).json({invoices, lengthData})
         } catch (error) {
             return res.status(500).json({msg: "Server Error"})
         }
