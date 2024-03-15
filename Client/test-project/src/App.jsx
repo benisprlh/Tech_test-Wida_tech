@@ -4,7 +4,7 @@ import router from "./router/route"
 function App() {
 
   return (
-    <main className="container mt-5">
+    <main className="">
       <RouterProvider router={router}/>
     </main>
   )
