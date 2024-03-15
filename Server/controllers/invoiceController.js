@@ -40,7 +40,6 @@ class InvoiceController {
             include: {
                 association: "SoldProducts",
                 attributes: ['totalPrice'],
-                as: "TotalPrice",
             },
             limit: 5,
             offset: 0,
@@ -56,9 +55,26 @@ class InvoiceController {
             const AllData = await Invoice.findAndCountAll();
             const lengthData = AllData.count;
             const invoices = await Invoice.findAll(paramQuerySQL)
-            res.status(200).json({invoices, lengthData})
+            return res.status(200).json({invoices, lengthData})
         } catch (error) {
             return res.status(500).json({msg: "Server Error"})
+        }
+    }
+
+    static async getAllInvoices(req, res, next) {
+        try {
+            const invoices = await Invoice.findAll({
+                attributes: ['dateOfInvoice'],
+                include: {
+                    association: "SoldProducts",
+                    attributes: ['totalPrice'],
+                    required: true
+                },
+                
+            })
+            return res.status(200).json(invoices)
+        } catch (error) {
+            console.log(error)
         }
     }
 }
