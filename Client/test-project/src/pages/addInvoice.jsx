@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from 'axios';
 import BaseUrl from "../helper/baseurl";
+import formatIDR from "../helper/formatIdr";
 
 
 export const AddInvoice = () => {
@@ -76,9 +77,6 @@ export const AddInvoice = () => {
         }
     }
 
-    useEffect(() => {
-        console.log(invoice)
-    }, [invoice])
     return <>
     <form onSubmit={(e) => handleClick(e)}>
         <h1>FORM ADD INVOICE</h1>
@@ -120,7 +118,7 @@ export const AddInvoice = () => {
                              <img src={product.image} alt={product.productName} style={{ width: '50px', marginRight: '10px' }} />
                              <div style={{ display: 'flex', alignItems: 'center' }}>
                                  <p style={{ margin: '0' }}>{product.productName}</p>
-                                 <p style={{ margin: '0', marginLeft: '10px' }}>Price: Rp.{product.price}</p>
+                                 <p style={{ margin: '0', marginLeft: '10px' }}>Price: {formatIDR(product.price)}</p>
                              </div>
                          </div>
                      ))}
@@ -131,7 +129,7 @@ export const AddInvoice = () => {
                     <div key={index} className="dflex align-items-center justify-content-between shadow p-3 mb-1 bg-body-tertiary rounded">
                     <div style={{ display: 'flex', alignItems: 'center' }}>
                         <img src={product.image} alt={product.productName} style={{ width: '50px', marginRight: '10px' }} />
-                        <p>{product.productName} - Price: ${product.price}</p>
+                        <p>{product.productName} - Price: {formatIDR(product.price)}</p>
                     </div>
                     <div>
                         <label htmlFor="quantity" className="form-label"> Quantity</label>

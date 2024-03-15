@@ -30,6 +30,36 @@ class InvoiceController {
             return res.status(500).json({msg: "Server Error"})
         }
     }
+
+    static async getInvoices(req, res, next) {
+
+        const {page} = req.query
+
+        let paramQuerySQL = {    
+            attributes: ['id','customerName', 'salesPersonName', 'note'],
+            include: {
+                association: "SoldProducts",
+                attributes: ['totalPrice'],
+                as: "TotalPrice",
+                required: true
+            },
+            limit: 5,
+            offset: 0,
+            order: [['id', 'ASC']],
+          };
+
+          if (page) {
+            let offset = page * limit - limit;
+            paramQuerySQL.offset = offset;
+          }
+
+        try {
+            const invoices = await Invoice.findAll(paramQuerySQL)
+            res.status(200).json(invoices)
+        } catch (error) {
+            return res.status(500).json({msg: "Server Error"})
+        }
+    }
 }
 
 module.exports = InvoiceController
