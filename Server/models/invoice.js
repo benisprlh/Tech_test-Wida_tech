@@ -15,10 +15,54 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Invoice.init({
-    dateOfInvoice: DataTypes.DATE,
-    customerName: DataTypes.STRING,
-    salesPersonName: DataTypes.STRING,
-    paymentType: DataTypes.STRING,
+    dateOfInvoice: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      validate: {
+        notNull: {
+          msg: "Date Is Required"
+        },
+        notEmpty: {
+          msg: "Date Is Required"
+        }
+      }
+    },
+    customerName: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notNull: {
+          msg: "Customer Name Is Required"
+        },
+        notEmpty: {
+          msg: "Customer Name Is Required"
+        }
+      }
+    },
+    salesPersonName: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notNull: {
+          msg: "Sales Person Name Is Required"
+        },
+        notEmpty: {
+          msg: "Sales Person Name Is Required"
+        }
+      }
+    },
+    paymentType: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notNull: {
+          msg: "Payment Type Is Required"
+        },
+        notEmpty: {
+          msg: "Payment Type Is Required"
+        }
+      }
+    },
     note: DataTypes.STRING
   }, {
     sequelize,

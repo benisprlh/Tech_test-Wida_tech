@@ -7,7 +7,7 @@ const router = createBrowserRouter([
   {
     children: [
       {
-        path: '/create-invoice',
+        path: '/add-invoice',
         element: <AddInvoice />,
       },
       {
