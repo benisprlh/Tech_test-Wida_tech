@@ -18,6 +18,7 @@ export const ListInvoice = () => {
       for (let i = 0; i < totalNumberPage; i++) {
         totalPage.push(i + 1);
       }
+      console.log(data)
       setPageTotal(totalPage);
     } catch (error) {
       console.log(error);

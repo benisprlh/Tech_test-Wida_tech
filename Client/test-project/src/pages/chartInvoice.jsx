@@ -39,9 +39,26 @@ export const ChartInvoice = () => {
   }, []);
 
   useEffect(() => {
-    const dailyData = processData(invoices, "day");
-    const weeklyData = processData(invoices, "week");
-    const monthlyData = processData(invoices, "month");
+    fetch();
+  }, []);
+
+  useEffect(() => {
+    if (invoices.length === 0) return;
+
+    const latestInvoiceDate = new Date(
+      Math.max(...invoices.map((invoice) => new Date(invoice.date)))
+    );
+
+
+    const lastDate = new Date(
+      latestInvoiceDate.getFullYear(),
+      latestInvoiceDate.getMonth(),
+      latestInvoiceDate.getDate()
+    );
+
+    const dailyData = processData(invoices, "day", lastDate);
+    const weeklyData = processData(invoices, "week", lastDate);
+    const monthlyData = processData(invoices, "month", lastDate);
 
     setData({
       daily: dailyData,
@@ -50,7 +67,7 @@ export const ChartInvoice = () => {
     });
   }, [invoices]);
 
-  const processData = (invoices, interval) => {
+  const processData = (invoices, interval, lastDate) => {
     const intervalMap = {
       day: 1,
       week: 7,
@@ -58,9 +75,8 @@ export const ChartInvoice = () => {
     };
 
     const intervalDays = intervalMap[interval];
-    const currentDate = new Date();
-    const startDate = new Date(currentDate);
-    startDate.setDate(startDate.getDate() - intervalDays);
+    const startDate = new Date(lastDate);
+    startDate.setDate(startDate.getDate() - intervalDays + 1);
 
     const revenueData = [];
 
@@ -70,8 +86,9 @@ export const ChartInvoice = () => {
 
       const revenue = invoices.reduce((total, invoice) => {
         const invoiceDate = new Date(invoice.date);
-        console.log(invoiceDate);
-        if (invoiceDate.toLocaleDateString() === date.toLocaleDateString()) {
+        if (
+          invoiceDate.toLocaleDateString() === date.toLocaleDateString()
+        ) {
           return total + invoice.totalPrice;
         }
         return total;

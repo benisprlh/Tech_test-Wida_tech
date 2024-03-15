@@ -50,7 +50,6 @@ export const AddInvoice = () => {
       const { data } = await axios.post(BaseUrl + "invoice", invoice);
       setMessage({ status: "success", message: data.msg });
     } catch ({ response }) {
-      // console.log(response.data.msg)
       setMessage({ status: "error", message: response.data.msg });
     }
   };
